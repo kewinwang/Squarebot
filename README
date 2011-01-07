@@ -1,12 +1,12 @@
 Squarebot!
 
-He's a campfire bot that tells you where your friends are when you ask him!
+He's a Foursquare aware campfire bot that tells you where your friends are when you ask him!
 
 Getting started:
 1) bootstrap:
 gem install activesupport json yajl yaml
 
-2) create your config.yml file in the project root (see config.yml.example)
+2) create a config.yml file in the project root (see config.yml.example) with campfire + foursquare api information
 3) ./script/run
 
 Basic commands:
