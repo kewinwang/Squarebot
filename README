@@ -2,8 +2,6 @@ Squarebot!
 
 He's a campfire bot that tells you where your friends are when you ask him!
 
-He's built with a plugin system so that you can make him do more things. (see lib/plugins/example.rb)
-
 Getting started:
 1) bootstrap:
 gem install activesupport json yajl yaml
@@ -17,3 +15,11 @@ Basic commands:
 @squarebot where is DW #initials!
 
 (@squarebot can also be the campfire Squarebot: syntax too)
+
+
+
+PLUGINS
+=====
+He's built with a plugin system so that you can make him do more things. (see lib/plugins/example.rb)
+
+add options to the config file and have them passed to your plugin when you register it (see lib/plugins/where_is.rb as an example)
