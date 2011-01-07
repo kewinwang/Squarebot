@@ -7,7 +7,7 @@ Getting started:
 gem install activesupport json yajl yaml
 
 2) create a config.yml file in the project root (see config.yml.example) with campfire + foursquare api information
-3) ./script/run
+3) ./script/run (you can use ./script/console to test him locally)
 
 Basic commands:
 
