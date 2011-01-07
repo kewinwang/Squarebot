@@ -4,7 +4,7 @@ He's a Foursquare aware campfire bot that tells you where your friends are when 
 
 Getting started:
 1) bootstrap:
-gem install activesupport json yajl yaml
+gem install activesupport json yajl-ruby
 
 2) create a config.yml file in the project root (see config.yml.example) with campfire + foursquare api information
 3) ./script/run (you can use ./script/console to test him locally)
