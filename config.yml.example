@@ -1,0 +1,5 @@
+campfire:
+  token: token_goes_here
+  room: room_id_goes_here
+foursquare:
+  token: foursquare_api_token_goes_here
