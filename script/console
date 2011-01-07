@@ -1,0 +1,12 @@
+#! /usr/bin/env ruby
+ROOT = File.join(File.dirname(__FILE__), '..')
+require File.join(ROOT, 'lib/squarebot')
+bot = Squarebot::Bot.new(File.join(ROOT, 'config.yml'))
+
+puts "entering squarebot test mode!"
+puts "ready for commands. Use @squarebot to talk to him directly"
+while(true)
+  message = gets.strip
+  break if message == 'exit'
+  puts bot.handle_message('body' => message).join("\n")
+end

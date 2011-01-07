@@ -31,55 +31,61 @@ module Squarebot
       @campfire = @options['campfire']
       Campfire.setup(@campfire['token'])
       Dir.glob(File.join(File.dirname(__FILE__), 'plugins/', '*.rb')).each {|file| require file; puts "loaded plugin #{file}" }
+      @chat_room = Campfire.room(@campfire['room'])
+    end
+
+
+    def handle_message(message)
+      #if message is @squarebot where is <arguments>
+      to_return = []
+      puts "received: #{message.inspect}"
+      body = message['body']
+      next if !body
+      
+      
+      #REACTIONS
+      Plugin.all.each {|plugin, io| 
+        begin
+          response = plugin.react(body, message['user_id'], @options[io[2]])
+          next if !response
+          response = response.join("\n") if response.is_a?(Array)
+          to_return << response
+        rescue StandardError => ex
+           puts "plugin #{plugin.class} crashed on react!: #{ex.inspect}"
+        end
+      }
+      
+      if results = body.match(/\A\@[S|s]quarebot\s+(.+)/)  || results = body.match(/\A[S|s]quarebot:\s+(.+)/)
+        #RESPONSES
+        Plugin.all.each {|plugin, io| 
+          begin
+            response = plugin.respond(results[1], message['user_id'], @options[io[2]])
+            next if !response
+            response = response.join("\n") if response.is_a?(Array)
+            to_return << response
+          rescue StandardError => ex
+            to_return << "plugin #{plugin.class} crashed on respond!"
+            puts ex.message
+            puts ex.backtrace
+          end
+        }
+      end
+      return to_return
     end
 
     def run
-      @chat_room = Campfire.room(@campfire['room'])
       response = @chat_room.join
       puts "joining room response: #{response}"
       url = URI.parse("http://#{@campfire['token']}:x@streaming.campfirenow.com//room/#{@campfire['room']}/live.json")
       Yajl::HttpStream.get(url) do |message|
-        #if message is @squarebot where is <arguments>
-        puts "received: #{message.inspect}"
-        body = message['body']
-        next if !body
-        
-        
-        #REACTIONS
-        Plugin.all.each {|plugin, io| 
-          begin
-            response = plugin.react(body, message['user_id'], @options[io[2]])
-            next if !response
-            response = response.join("\n") if response.is_a?(Array)
-            @chat_room.message(response)
-          rescue StandardError => ex
-             puts "plugin #{plugin.class} crashed on react!: #{ex.inspect}"
-          end
-        }
-        
-        if results = body.match(/\A\@[S|s]quarebot\s+(.+)/)  || results = body.match(/\A[S|s]quarebot:\s+(.+)/)
-          #RESPONSES
-          Plugin.all.each {|plugin, io| 
-            begin
-              response = plugin.respond(results[1], message['user_id'], @options[io[2]])
-              next if !response
-              response = response.join("\n") if response.is_a?(Array)
-              @chat_room.message(response)
-            rescue StandardError => ex
-              @chat_room.message "plugin #{plugin.class} crashed on respond!"
-              puts ex.message
-              puts ex.backtrace
-            end
-          }
-        end
-      end
+        response = handle_message(message)
+        @chat_room.message(response.join("\n"))
+      end #yajl
+    end #run
 
-
-    end
-
-  end
+  end #class
     
-end
+end #module
 
 
 

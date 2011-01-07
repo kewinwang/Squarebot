@@ -82,6 +82,12 @@ class Room
   end
 end
 
+class FakeRoom
+  
+  
+end
+
+
 # Usage:
 #
 # room = Campfire.room(1)
