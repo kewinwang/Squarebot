@@ -79,7 +79,7 @@ module Squarebot
       url = URI.parse("http://#{@campfire['token']}:x@streaming.campfirenow.com//room/#{@campfire['room']}/live.json")
       Yajl::HttpStream.get(url) do |message|
         response = handle_message(message)
-        @chat_room.message(response.join("\n"))
+        response.each{|r| @chat_room.message(r)}
       end #yajl
     end #run
 
