@@ -48,8 +48,11 @@ module Squarebot
         begin
           response = plugin.react(body, message['user_id'], @options[io[2]])
           next if !response
-          response = response.join("\n") if response.is_a?(Array)
-          to_return << response
+          if(response.is_a?(Array))
+            to_return += response
+          else
+            to_return << response
+          end
         rescue StandardError => ex
            puts "plugin #{plugin.class} crashed on react!: #{ex.inspect}"
         end
@@ -61,8 +64,11 @@ module Squarebot
           begin
             response = plugin.respond(results[1], message['user_id'], @options[io[2]])
             next if !response
-            response = response.join("\n") if response.is_a?(Array)
-            to_return << response
+            if(response.is_a?(Array))
+              to_return += response
+            else
+              to_return << response
+            end
           rescue StandardError => ex
             to_return << "plugin #{plugin.class} crashed on respond!"
             puts ex.message
