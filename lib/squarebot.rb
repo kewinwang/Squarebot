@@ -40,7 +40,7 @@ module Squarebot
       to_return = []
       puts "received: #{message.inspect}"
       body = message['body']
-      return if !body
+      return [] if !body
       
       
       #REACTIONS
