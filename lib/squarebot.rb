@@ -25,12 +25,20 @@ module Squarebot
     #Also, if a message is directed at squarebot it calls respond on every plugin.
     #It is up to the plugin to decide whether it should respond to the input or not
 
-    def initialize(yml_file = './config.yml')
+    def initialize(yml_file = './config.yml', plugin_dirs = [File.join(File.dirname(__FILE__), 'plugins/')])
       @options = YAML::load_file(yml_file)
       puts @options.inspect
       @campfire = @options['campfire']
       Campfire.setup(@campfire['token'])
-      Dir.glob(File.join(File.dirname(__FILE__), 'plugins/', '*.rb')).each {|file| require file; puts "loaded plugin #{file}" }
+      
+      plugin_dirs.each do |dr|
+        begin
+          Dir.glob(File.join(dr, '*.rb')).each {|file| require file; puts "loaded plugin #{file}" }
+        rescue StandardError => ex
+          puts "errors loading plugins from #{dr}: #{ex.message}"
+        end
+      end
+      
       @chat_room = Campfire.room(@campfire['room'])
     end
 

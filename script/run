@@ -4,6 +4,6 @@ ROOT = File.join(File.dirname(__FILE__), '..')
 
 require File.join(ROOT, 'lib/squarebot')
 
-bot = Squarebot::Bot.new(File.join(ROOT, 'config.yml'))
+bot = Squarebot::Bot.new(File.join(ROOT, 'config.yml'), [File.join(ROOT, 'lib', 'plugins'), File.join(ROOT, 'secret')])
 
 bot.run

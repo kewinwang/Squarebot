@@ -67,10 +67,12 @@ class WhereIs < Squarebot::Plugin
       begin
         data = ssl_get_json(URI.parse(@foursquare[:user].gsub('%userid%', person['id'])))
     #    puts data.inspect
+        puts "data: #{data.inspect}"
         checkin1 = data['response']['user']['checkins']['items'][0]
     #    puts checkin1.inspect
         results["#{person['firstName']} #{person['lastName']}"] = checkin1.merge({'userid' => person['id']})
       rescue StandardError => ex
+        puts ex.message
         puts ex.backtrace
       end
     end

@@ -1,7 +1,7 @@
 #! /usr/bin/env ruby
 ROOT = File.join(File.dirname(__FILE__), '..')
 require File.join(ROOT, 'lib/squarebot')
-bot = Squarebot::Bot.new(File.join(ROOT, 'config.yml'))
+bot = Squarebot::Bot.new(File.join(ROOT, 'config.yml'), [File.join(ROOT, 'lib', 'plugins'), File.join(ROOT, 'secret')])
 
 puts "entering squarebot test mode!"
 puts "ready for commands. Use @squarebot to talk to him directly"
