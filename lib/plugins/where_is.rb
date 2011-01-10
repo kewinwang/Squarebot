@@ -11,7 +11,7 @@ class WhereIs < Squarebot::Plugin
 
   def initialize
     @foursquare = {
-      :friends => "https://api.foursquare.com/v2/users/4358883/friends?oauth_token=(token)",
+      :friends => "https://api.foursquare.com/v2/users/self/friends?oauth_token=(token)",
       :user => "https://api.foursquare.com/v2/users/%userid%?oauth_token=(token)"
     }
 
@@ -63,11 +63,12 @@ class WhereIs < Squarebot::Plugin
   def get_locations(people)
   #  puts people.inspect
     results = {}
+    puts "getting locations for #{people.size} people"
     people.each do |person|
       begin
         data = ssl_get_json(URI.parse(@foursquare[:user].gsub('%userid%', person['id'])))
     #    puts data.inspect
-        puts "data: #{data.inspect}"
+        next if !data['response']['user']['checkins'] || data['response']['user']['checkins']['count'] == 0
         checkin1 = data['response']['user']['checkins']['items'][0]
     #    puts checkin1.inspect
         results["#{person['firstName']} #{person['lastName']}"] = checkin1.merge({'userid' => person['id']})
