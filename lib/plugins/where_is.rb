@@ -62,16 +62,28 @@ class WhereIs < Squarebot::Plugin
 
   def get_locations(people)
   #  puts people.inspect
-    results = {}
+    results = []
     puts "getting locations for #{people.size} people"
     people.each do |person|
       begin
         data = ssl_get_json(URI.parse(@foursquare[:user].gsub('%userid%', person['id'])))
     #    puts data.inspect
-        next if !data['response']['user']['checkins'] || data['response']['user']['checkins']['count'] == 0
-        checkin1 = data['response']['user']['checkins']['items'][0]
-    #    puts checkin1.inspect
-        results["#{person['firstName']} #{person['lastName']}"] = checkin1.merge({'userid' => person['id']})
+        next if !data['response']['user']['checkins'] || data['response']['user']['checkins']['items'].size == 0
+        
+        all_checkins = data['response']['user']['checkins']['items']
+        checkin = all_checkins[0]
+
+        message = "#{person['firstName']} #{person['lastName']} was last seen"
+        if checkin['type'] == 'shout'
+          message += " shouting '#{all_checkins[0]['shout']}', but not at any venue"
+        else
+          message += " at #{checkin['venue']['name']} in #{checkin['venue']['location']['city']}"
+        end
+        hours = ((Time.now - Time.at(checkin['createdAt'])) / 1.hour).to_i + 1
+        message = "#{message} less than #{hours} #{hours == 1 ? "hour" : "hours"} ago"
+        message = "#{message} (http://foursquare.com/user/#{checkin['userid']}/checkin/#{checkin['id']})" if checkin['type'] != 'shout'
+
+        results << message
       rescue StandardError => ex
         puts ex.message
         puts ex.backtrace
@@ -87,16 +99,7 @@ class WhereIs < Squarebot::Plugin
     if results = message.match(/\Awhere\s+is(.+)/)
       next unless results.size > 1
       matching_friends = find_people(results[1])
-      location_mappings = get_locations(matching_friends)
-
-      location_mappings.each do |person, checkin|
-        message = "#{person} was last seen at #{checkin['venue']['name']} in #{checkin['venue']['location']['city']}"
-        hours = ((Time.now - Time.at(checkin['createdAt'])) / 1.hour).to_i + 1
-        message = "#{message} less than #{hours} #{hours == 1 ? "hour" : "hours"} ago"
-        message = "#{message} (http://foursquare.com/user/#{checkin['userid']}/checkin/#{checkin['id']})"
-
-        response << message
-      end
+      response = get_locations(matching_friends)
       return response.size == 0 ? "I didn't find anyone matching your search, sorry!" : response
     else
       return nil
