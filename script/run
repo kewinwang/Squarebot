@@ -4,6 +4,17 @@ ROOT = File.join(File.dirname(__FILE__), '..')
 
 require File.join(ROOT, 'lib/squarebot')
 
-bot = Squarebot::Bot.new(File.join(ROOT, 'config.yml'), [File.join(ROOT, 'lib', 'plugins'), File.join(ROOT, 'secret')])
-
-bot.run
+while true
+  begin
+    bot = Squarebot::Bot.new(File.join(ROOT, 'config.yml'), [File.join(ROOT, 'lib', 'plugins'), File.join(ROOT, 'secret')])
+    bot.run
+  rescue SystemExit, Interrupt
+    puts "exiting..."
+    exit 0
+  rescue Exception => ex
+    puts "hit exception: #{ex.message}, #{ex.backtrace}"
+    puts "sleeping for 10 seconds before restarting"
+    sleep 10
+    puts "starting again"
+  end
+end
