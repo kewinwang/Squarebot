@@ -24,6 +24,7 @@ class Campfire
   end
 end
 
+
 class Room
   attr_reader :room_id
 
