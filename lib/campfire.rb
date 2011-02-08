@@ -20,7 +20,8 @@ class Campfire
   end
 
   def self.user(id)
-    Campfire.get("/users/#{id}.json")["user"]
+    data = Campfire.get("/users/#{id}.json")
+    data['user']
   end
 end
 
