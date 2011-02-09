@@ -10,11 +10,11 @@ class Greetings < Squarebot::Plugin
   end
   
   def react(message, user, options)
-    @greetings = ['hello', 'good morning', 'morning', 'good afternoon', 'gday', 'howdy', "g'day", 'hi', 'afternoon', 'bonjour', 'ayup']
-    @responses = ['howdy', "g'day", 'bonjour', 'ayup', 'nice of you to show up']
+    @greetings = ['hello', 'good morning', 'morning', 'good afternoon', 'gday', 'howdy', "g'day", 'hi', 'afternoon', 'bonjour', 'ayup', 'evening', 'buenos dias']
+    @responses = ['howdy', "g'day", 'bonjour', 'ayup', 'nice of you to show up', 'who let you in here']
     @users ||= {}
-    if @greetings.include?(message.downcase)
-      puts "user: #{user}"
+    if @greetings.include?(message.downcase.gsub(/[!|.|,|]/).strip)
+      puts "user: #{user} is saying hello"
       #this means I cache user info so I don't have to make multiple calls for the same user. SMRT smart
       u = @users[user] ||= Campfire.user(user)
       return "#{@responses.sample} #{u["name"].split()[0]}"
