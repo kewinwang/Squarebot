@@ -8,5 +8,5 @@ puts "ready for commands. Use @squarebot to talk to him directly"
 while(true)
   message = gets.strip
   break if message == 'exit'
-  puts bot.handle_message('body' => message, 'user_id' => 308863052).join("\n")
+  puts bot.handle_message('body' => message, 'user_id' => 714918).join("\n")
 end
