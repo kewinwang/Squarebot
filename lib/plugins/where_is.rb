@@ -81,7 +81,7 @@ class WhereIs < Squarebot::Plugin
         end
         hours = ((Time.now - Time.at(checkin['createdAt'])) / 1.hour).to_i + 1
         message = "#{message} less than #{hours} #{hours == 1 ? "hour" : "hours"} ago"
-        message = "#{message} (http://foursquare.com/user/#{checkin['userid']}/checkin/#{checkin['id']})" if checkin['type'] != 'shout'
+        message = "#{message} (http://foursquare.com/user/#{person['id']}/checkin/#{checkin['id']})" if checkin['type'] != 'shout'
 
         results << message
       rescue StandardError => ex
