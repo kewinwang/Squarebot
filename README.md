@@ -10,6 +10,8 @@ He's a Foursquare aware campfire bot that tells you where your friends are when 
 > gem install activesupport json yajl-ruby daemons
 
 * create a config.yml file in the project root (see config.yml.example) with campfire + foursquare api information
+
+* run him!
 > ./script/console (to test locally)
 >
 > ./script/run (to run in the foreground)
