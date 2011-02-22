@@ -34,6 +34,8 @@ Note:
 PLUGINS
 ----
 He's built with a plugin system so that you can make him do more things. (see lib/plugins/example.rb)
+
 add options to the config file and have them passed to your plugin when you register it (see lib/plugins/where_is.rb as an example)
+
 * add plugins to ./lib/plugins to put them under source control
 * add plugins to ./secret to not add them to source control (we have secrets too!)
