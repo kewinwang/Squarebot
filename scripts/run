@@ -6,7 +6,10 @@ require File.join(ROOT, 'lib/squarebot')
 
 while true
   begin
-    bot = Squarebot::Bot.new(File.join(ROOT, 'config.yml'), [File.join(ROOT, 'lib', 'plugins'), File.join(ROOT, 'secret')])
+    directories = []
+    directories << File.join(ROOT, 'lib', 'plugins')
+    directories << File.join(ROOT, 'secret') if File.exists?(File.join(ROOT, 'secret'))
+    bot = Squarebot::Bot.new(File.join(ROOT, 'config.yml'), directories)
     bot.run
   rescue SystemExit, Interrupt
     puts "exiting..."
