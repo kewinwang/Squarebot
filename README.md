@@ -21,12 +21,13 @@ He's a Foursquare aware campfire bot that tells you where your friends are when 
 Basic commands:
 ----
 
-> @squarebot where is frank? #firstname!
+> @squarebot where is frank?
 >
-> @squarebot where is DW #initials!
+> @squarebot where is DW
 
+Note:
 
-(@squarebot can also be the campfire Squarebot: syntax too)
+'@squarebot' can also be 'Squarebot:', he can give you the location of people by either their firstname or their initials (Matthew & MR both match 'Matthew Rathbone' )
 
 
 
