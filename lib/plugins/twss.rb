@@ -5,7 +5,7 @@ class Twss < Squarebot::Plugin
 
   def initialize
     @messages = 0
-    TWSS.threshold = 2.0
+    TWSS.threshold = 5.0
   end
 
   def respond(message, user, options)
