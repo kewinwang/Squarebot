@@ -15,6 +15,7 @@ class Twss < Squarebot::Plugin
   def react(message, user, options)
     @users = {}
     u = @users[user] ||= Campfire.user(user)
+    return nil if message.downcase.match(/that'?s what she said/)
     return "#{u['name']}: That's what she said." if TWSS(message)
   end
   

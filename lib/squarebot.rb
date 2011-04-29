@@ -30,6 +30,9 @@ module Squarebot
       puts @options.inspect
       @campfire = @options['campfire']
       Campfire.setup(@campfire['token'])
+      @me = Campfire.user("me")
+      puts "me:"
+      puts @me.inspect
       
       plugin_dirs.each do |dr|
         begin
@@ -49,7 +52,6 @@ module Squarebot
       puts "received: #{message.inspect}"
       body = message['body']
       return [] if !body
-      
       
       #REACTIONS
       Plugin.all.each {|plugin, io| 
@@ -92,6 +94,7 @@ module Squarebot
       puts "joining room response: #{response}"
       url = URI.parse("http://#{@campfire['token']}:x@streaming.campfirenow.com//room/#{@campfire['room']}/live.json")
       Yajl::HttpStream.get(url) do |message|
+        next if message['user_id'] == @me['id'].to_s
         response = handle_message(message)
         response.each{|r| @chat_room.message(r)}
       end #yajl
