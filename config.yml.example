@@ -3,3 +3,5 @@ campfire:
   room: room_id_goes_here
 foursquare:
   token: foursquare_api_token_goes_here
+  ll: "39.9,-72.2" #these are for the where_should.rb plugin
+  ll2: "22.3,-55.1"

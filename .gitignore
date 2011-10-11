@@ -2,3 +2,4 @@ config.yml
 secret
 Gemfile.lock
 *~
+.DS_Store
