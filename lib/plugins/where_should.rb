@@ -63,7 +63,10 @@ class WhereShould < Squarebot::Plugin
       next unless results.size > 3
       insf = false
       puts results[3]
-      query = results[3] || "".strip("?")
+      query = (results[3] || "").strip("?")
+      sf = /(in|near|around|at)\s+(sf|san francisco)/
+      insf = query.match(sf)
+      query = query.gsub(sf, "")
       ll = insf ? @foursquare[:ll2] : @foursquare[:ll]
       rex = get_rex(query, ll)
       rex.take(2).each do |rec_detail|
