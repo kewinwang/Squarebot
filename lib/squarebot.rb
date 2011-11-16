@@ -17,6 +17,13 @@ module Squarebot
     def self.all
       return @@plugins || {}
     end
+
+    def react(message, user, options)
+      #override me
+    end
+    def respond(message, user, options)
+      #override me
+    end
   end
 
   class Bot

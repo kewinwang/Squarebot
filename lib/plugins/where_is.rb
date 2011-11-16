@@ -46,7 +46,7 @@ class WhereIs < Squarebot::Plugin
   def find_people(p)
     p = p.strip.chomp("?").downcase
     friends = get_friends() #returns an array of friends
-    split = p.split /\s+/
+    split = p.split(/\s+/)
     if p.size == 2
       split = p.split(//)
       return friends.select{|f|
