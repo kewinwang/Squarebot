@@ -25,7 +25,7 @@ class PlusPlus < Squarebot::Plugin
   end
 
   def react(message, user, options)
-    if message.include?("++") || message.include?("--")
+    if (message.include?("++") || message.include?("--")) && !message.match(/:|\*|\s|;|\n/)
       initialize()
       matches = message.match(/([^+-:\s\n]+)([+-]+)/)
       name = matches[1]
