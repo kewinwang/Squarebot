@@ -1,15 +1,15 @@
 require 'fileutils'
 class PlusPlus < Squarebot::Plugin
-
+  FILE = File.join(Squarebot.root, 'plusplus.json')
   register self, "plus plus, minus minus", "you know how it works"
 
   def persist
-    File.open('plusplus.json', 'w'){|file| file.puts(@data.to_json)}
+    File.open(FILE, 'w'){|file| file.puts(@data.to_json)}
   end
 
   def initialize
     @parser = Yajl::Parser.new
-    raw = File.exists?('plusplus.json') ? File.open("plusplus.json").read : "{}"
+    raw = File.exists?(FILE) ? File.open(FILE).read : "{}"
     @data = @parser.parse(raw)
   end
 

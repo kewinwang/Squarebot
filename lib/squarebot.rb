@@ -5,6 +5,13 @@ require 'yaml'
 require 'yajl'
 require "yajl/http_stream"
 module Squarebot
+  extend self
+  def root
+    return File.join(File.dirname(__FILE__), '..')
+  end
+
+end
+module Squarebot
 
   #PLUGINS ARE SIMPLE!
   #Check out plugins/example.rb
