@@ -27,9 +27,12 @@ class PlusPlus < Squarebot::Plugin
   def react(message, user, options)
     if (message.include?("++") || message.include?("--")) && !message.match(/:|\*|\s|;|\n/)
       initialize()
-      matches = message.match(/([^+-:\s\n]+)([+-]+)/)
+      plus = /(\+\+)+/
+      minus = /(--)+/
+      matches = message.match(/([^+-:\s\n]+)(#{plus}|#{minus})/)
       name = matches[1]
-      direction = matches[2] == '++' ? 1 : -1
+
+      direction = matches[2].match(plus) ? (matches[2].size / 2.0).floor : (matches[2].size / 2.0).floor * -1
       puts "found: #{name}, #{direction}"
       @data[name] ||= 0
       @data[name] += direction
