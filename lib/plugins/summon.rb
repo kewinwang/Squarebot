@@ -24,11 +24,12 @@ class Summon < Squarebot::Plugin
 
 
   def respond(message, user, options)
-    @secret = options["secret"]
+    
     unless message.start_with?("summon")
       return nil
     end
-
+    
+    @secret = options["secret"]
     if message.downcase == "help summon" || message.downcase == "summon help" || message.downcase == "summon --help"
       return "=> @squarebot summon name,name2,namex : hey guys, stuff is broken, need your help"
     end
