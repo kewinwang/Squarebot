@@ -1,5 +1,6 @@
 #! /usr/bin/env ruby
 ROOT = File.join(File.dirname(__FILE__), '..')
+DEV = true
 require File.join(ROOT, 'lib/squarebot')
 bot = Squarebot::Bot.new(File.join(ROOT, 'config.yml'), [File.join(ROOT, 'lib', 'plugins'), File.join(ROOT, 'secret')])
 

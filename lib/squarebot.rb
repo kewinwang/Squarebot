@@ -5,10 +5,10 @@ require 'yaml'
 require 'yajl'
 require "yajl/http_stream"
 module Squarebot
-  
+
   #PLUGINS ARE SIMPLE!
   #Check out plugins/example.rb
-  
+
   class Plugin
     def self.register(plugin, inputs, outputs, option = nil)
       @@plugins ||= {}
@@ -40,7 +40,7 @@ module Squarebot
       @me = Campfire.user("me")
       puts "me:"
       puts @me.inspect
-      
+
       plugin_dirs.each do |dr|
         begin
           Dir.glob(File.join(dr, '*.rb')).each {|file| require file; puts "loaded plugin #{file}" }
@@ -48,7 +48,7 @@ module Squarebot
           puts "errors loading plugins from #{dr}: #{ex.message}"
         end
       end
-      
+
       @chat_room = Campfire.room(@campfire['room'])
     end
 
@@ -59,9 +59,9 @@ module Squarebot
       puts "received: #{message.inspect}"
       body = message['body']
       return [] if !body
-      
+
       #REACTIONS
-      Plugin.all.each {|plugin, io| 
+      Plugin.all.each {|plugin, io|
         begin
           response = plugin.react(body, message['user_id'], @options[io[2]])
           next if !response
@@ -71,13 +71,14 @@ module Squarebot
             to_return << response
           end
         rescue StandardError => ex
-           puts "plugin #{plugin.class} crashed on react!: #{ex.inspect}"
+          puts "plugin #{plugin.class} crashed on react!: #{ex.message}"
+          puts ex.backtrace
         end
       }
-      
+
       if results = body.match(/\A\@[S|s]quarebot\s+(.+)/)  || results = body.match(/\A[S|s]quarebot:\s+(.+)/)
         #RESPONSES
-        Plugin.all.each {|plugin, io| 
+        Plugin.all.each {|plugin, io|
           begin
             response = plugin.respond(results[1], message['user_id'], @options[io[2]])
             next if !response
@@ -108,9 +109,9 @@ module Squarebot
     end #run
 
   end #class
-    
+
 end #module
 
 
 
-  
+
